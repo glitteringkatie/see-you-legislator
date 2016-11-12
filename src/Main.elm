@@ -5,12 +5,12 @@ import Messages exposing (Msg(..))
 import Models exposing (Model, initialModel)
 import View exposing (view)
 import Update exposing (update)
-import States.Commands exposing (fetchAll)
+-- import States.Commands exposing (fetchAll)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.map StatesMsg fetchAll )
+    ( initialModel, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg

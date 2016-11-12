@@ -1,15 +1,13 @@
 module Models exposing (..)
 
-import States.Models exposing (StateState)
+import States.Models exposing (StateModel)
 
 
 type alias Model =
-    { stateState : StateState }
+    { stateModel : StateModel
+    }
 
 
 initialModel : Model
 initialModel =
-    { stateState = { states = []
-                  , selectedState = ""
-                  }
-    }
+    { stateModel = { state = "", legislators = [] } }

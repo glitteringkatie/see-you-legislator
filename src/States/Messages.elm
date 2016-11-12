@@ -1,10 +1,10 @@
 module States.Messages exposing (..)
 
 import Http
-import States.Models exposing (StateName, State)
+import States.Models exposing (State, Legislators)
 
 
 type Msg
-    = FetchAllDone (List State)
-    | FetchAllFail Http.Error
-    | SetState String
+    = SetState State
+    | FetchLegislatorsDone (Legislators)
+    | FetchLegislatorsFail Http.Error

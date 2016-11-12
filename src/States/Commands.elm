@@ -1,31 +1,58 @@
 module States.Commands exposing (..)
 
 import Http
-import Json.Decode as Decode exposing ((:=))
+import Json.Decode as Decode exposing ((:=), at)
 import Task
-import States.Models exposing (State)
+import States.Models exposing (State, Legislators, LegislatorData, LegislatorContact, Legislator)
 import States.Messages exposing (..)
 
 
-fetchAll : Cmd Msg
-fetchAll =
-    Http.get collectionDecoder fetchAllUrl
-        |> Task.perform FetchAllFail FetchAllDone
+fetchLegislator : State -> Cmd Msg
+fetchLegislator abbrv =
+  Http.get collectionDecoder (fetchLegislatorUrl abbrv)
+    |> Task.perform FetchLegislatorsFail FetchLegislatorsDone
 
 
-fetchAllUrl : String
-fetchAllUrl =
-    "http://openstates.org/api/v1/metadata/"
+fetchLegislatorUrl : State -> String
+fetchLegislatorUrl abbrv =
+  "https://www.govtrack.us/api/v2/role?current=true&state=" ++ abbrv
 
 
-collectionDecoder : Decode.Decoder (List State)
+-- legislatorAPIDecoder : Decode.Decoder Legislators
+-- legislatorAPIDecoder =
+--   let
+--     one = Debug.log "som" "cats"
+--   in
+--     Decode.object1
+--       ("objects" := (Decode.map collectionDecoder))
+
+collectionDecoder : Decode.Decoder (Legislators)
 collectionDecoder =
-    Decode.list stateDecoder
+  ("objects" := Decode.list legislatorDataDecoder)
 
+legislatorDataDecoder : Decode.Decoder LegislatorData
+legislatorDataDecoder =
+  Decode.object7 LegislatorData
+    ("description" := Decode.string)
+    ("extra" := legislatorContactDecoder)
+    ("party" := Decode.string)
+    ("person" := legislatorPersonDecoder)
+    ("phone" := Decode.string)
+    ("role_type" := Decode.string)
+    ("website" := Decode.string)
 
-stateDecoder : Decode.Decoder State
-stateDecoder =
-    Decode.object2 State
-        ("name" := Decode.string)
-        ("abbreviation" := Decode.string)
+legislatorContactDecoder : Decode.Decoder LegislatorContact
+legislatorContactDecoder =
+  Decode.object2 LegislatorContact
+    ("office" := Decode.string)
+    ( Decode.maybe ("contact_form" := Decode.string) )
 
+legislatorPersonDecoder : Decode.Decoder Legislator
+legislatorPersonDecoder =
+  Decode.object6 Legislator
+    ("firstname" := Decode.string)
+    ("lastname" := Decode.string)
+    ("link" := Decode.string)
+    ("name" := Decode.string)
+    (Decode.maybe ("twitterid" := Decode.string))
+    (Decode.maybe ("youtubeid" := Decode.string))

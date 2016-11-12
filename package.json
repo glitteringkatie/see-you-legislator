@@ -16,13 +16,16 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.14.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "surge": "^0.18.0"
+  },
   "scripts": {
     "api": "node api.js",
     "build": "webpack",
     "watch": "webpack --watch",
-    "dev": "webpack-dev-server --port 3000"
-},
+    "dev": "webpack-dev-server --port 3000",
+    "deploy": "npm run build && surge --project ./dist --domain uteruses-before-duderuses.surge.sh"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sporto/elm-tutorial-app.git"

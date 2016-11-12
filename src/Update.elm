@@ -10,7 +10,7 @@ update msg model =
     case msg of
         StatesMsg subMsg ->
             let
-                ( updatedStates, cmd ) =
-                    States.Update.update subMsg model.stateState
+                ( updatedState, cmd ) =
+                    States.Update.update subMsg model.stateModel
             in
-                ( { model | stateState = updatedStates }, Cmd.map StatesMsg cmd )
+                ( { model | stateModel = updatedState }, Cmd.map StatesMsg cmd )

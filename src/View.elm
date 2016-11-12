@@ -15,7 +15,4 @@ view model =
 
 page : Model -> Html Msg
 page model =
-  let
-      one = Debug.log "selectedState" model.stateState.selectedState
-  in
-    Html.App.map StatesMsg (States.DropDown.view model.stateState.states)
+  Html.App.map StatesMsg (States.DropDown.view model.stateModel.legislators)
