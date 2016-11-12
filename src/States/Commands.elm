@@ -18,14 +18,6 @@ fetchLegislatorUrl abbrv =
   "https://www.govtrack.us/api/v2/role?current=true&state=" ++ abbrv
 
 
--- legislatorAPIDecoder : Decode.Decoder Legislators
--- legislatorAPIDecoder =
---   let
---     one = Debug.log "som" "cats"
---   in
---     Decode.object1
---       ("objects" := (Decode.map collectionDecoder))
-
 collectionDecoder : Decode.Decoder (Legislators)
 collectionDecoder =
   ("objects" := Decode.list legislatorDataDecoder)

@@ -15,4 +15,4 @@ view model =
 
 page : Model -> Html Msg
 page model =
-  Html.App.map StatesMsg (States.DropDown.view model.stateModel.legislators)
+  Html.App.map StatesMsg (States.DropDown.view model.stateModel)

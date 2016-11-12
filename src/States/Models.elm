@@ -2,7 +2,8 @@ module States.Models exposing (..)
 
 type alias StateModel =
   { state : State
-  , legislators : Legislators
+  , representatives : Legislators
+  , senators : Legislators
   }
 
 type alias State =

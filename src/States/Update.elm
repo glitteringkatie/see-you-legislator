@@ -2,7 +2,21 @@ module States.Update exposing (..)
 
 import States.Commands exposing (fetchLegislator)
 import States.Messages exposing (Msg(..))
-import States.Models exposing (StateModel)
+import States.Models exposing (StateModel, LegislatorData)
+
+isRepresentative : LegislatorData -> Bool
+isRepresentative legislator =
+  if legislator.role_type == "representative" then
+     True
+   else
+     False
+
+isSenator : LegislatorData -> Bool
+isSenator legislator =
+  if legislator.role_type == "senator" then
+     True
+   else
+     False
 
 update : Msg -> StateModel -> ( StateModel, Cmd Msg )
 update message model =
@@ -15,10 +29,18 @@ update message model =
 
         FetchLegislatorsDone newLegislators ->
           let
-            newModel = { model | legislators = newLegislators }
+            newReps =
+              List.filter isRepresentative newLegislators
+            newSens =
+              List.filter isSenator newLegislators
+            newModel =
+              { model |
+                representatives = newReps,
+                senators = newSens
+              }
           in
             ( newModel, Cmd.none )
 
         FetchLegislatorsFail error ->
           let one = Debug.log "error" error
-          in ( { model | legislators = [] }, Cmd.none )
+          in ( { model | representatives = [], senators = [] }, Cmd.none )

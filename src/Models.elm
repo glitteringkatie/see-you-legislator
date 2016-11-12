@@ -10,4 +10,9 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { stateModel = { state = "", legislators = [] } }
+    { stateModel =
+      { state = ""
+      , representatives = []
+      , senators = []
+      }
+    }
