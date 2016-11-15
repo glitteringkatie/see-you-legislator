@@ -22,16 +22,16 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --port 3000",
-    "deploy": "npm run build && surge --project ./dist --domain uteruses-before-duderuses.surge.sh"
+    "deploy": "npm run build && surge --project ./dist --domain see-you-legislator.surge.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hugheskatie/uteruses-before-duderuses.git"
+    "url": "git+https://github.com/hugheskatie/see-you-legislator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hugheskatie/uteruses-before-duderuses/issues"
+    "url": "https://github.com/hugheskatie/see-you-legislator/issues"
   },
-  "homepage": "https://github.com/hugheskatie/uteruses-before-duderuses#readme"
+  "homepage": "https://github.com/hugheskatie/see-you-legislator#readme"
 }
