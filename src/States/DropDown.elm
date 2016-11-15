@@ -11,17 +11,24 @@ import Json.Decode as Json
 view : StateModel -> Html Msg
 view model =
   div []
-      [ callToAction
+      [ header
       , dropDown
       , printLegislators model.senators
       , printLegislators model.representatives
       ]
 
 
+header : Html Msg
+header =
+  div []
+      [ h1 [ class "title" ] [ text "SEE YOU LEGISLATOR" ]
+      , h4 [ class "subtitle" ] [ text "Contact your member of congress and make a difference!" ]
+      ]
+
 callToAction : Html Msg
 callToAction =
   div []
-      [ h3 [ class "h3 center" ] [ text "Who represents you? Well where are you?" ] ]
+      [ h1 [ class "h2 center" ] [ text "Who represents you? Well where are you?" ] ]
 
 printLegislators : Legislators -> Html Msg
 printLegislators legislators =
@@ -36,12 +43,6 @@ listInfo legislator =
           [ twitterid ]
         (Nothing) ->
           []
-    youtube =
-      case legislator.person.youtubeid of
-        (Just youtubeid) ->
-          [ youtubeid ]
-        (Nothing) ->
-          []
     contactForm =
       case legislator.extra.contact_form of
         (Just contact_form) ->
@@ -49,15 +50,12 @@ listInfo legislator =
         (Nothing) ->
           []
   in
-    List.append twitter youtube
-      |> List.append contactForm
+    List.append twitter contactForm
       |> List.append
-        [ legislator.description
-        , legislator.party
+        [ legislator.party
         , legislator.website
         , legislator.phone
         , legislator.extra.office
-        , legislator.role_type
         ]
 
 infoLi : String -> Html Msg
