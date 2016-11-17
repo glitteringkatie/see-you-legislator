@@ -13,8 +13,8 @@ view model =
   div []
       [ header
       , dropDown
-      , printLegislators model.senators
-      , printLegislators model.representatives
+      , printSenators model.senators
+      , printReps model.representatives
       ]
 
 
@@ -30,9 +30,23 @@ callToAction =
   div []
       [ h1 [ class "h2 center" ] [ text "Who represents you? Well where are you?" ] ]
 
+printSenators : Legislators -> Html Msg
+printSenators senators =
+  div [ class "legislator-section" ]
+      [ h2 [ class "legislator-title" ] [ text "SENATORS" ]
+      , (printLegislators senators)
+      ]
+
+printReps : Legislators -> Html Msg
+printReps reps =
+  div [ class "legislator-section" ]
+      [ h2 [ class "legislator-title" ] [ text "REPRESENTATIVES" ]
+      , (printLegislators reps)
+      ]
+
 printLegislators : Legislators -> Html Msg
 printLegislators legislators =
-  div [] (List.map printLegislator legislators)
+  div [ class "legislator-tiles" ] (List.map printLegislator legislators)
 
 listInfo : LegislatorData -> List String
 listInfo legislator =
@@ -64,9 +78,9 @@ infoLi info =
 
 printLegislator : LegislatorData -> Html Msg
 printLegislator legislator =
-    div []
-        [ h3 [ class "h3" ] [ text legislator.person.name ]
-        , ul [] (List.map infoLi (listInfo legislator))
+    div [ class "tile" ]
+        [ h3 [ class "h3 legislator-name" ] [ text legislator.person.name ]
+        , ul [ class "legislator-info" ] (List.map infoLi (listInfo legislator))
         ]
 
 dropDown : Html Msg

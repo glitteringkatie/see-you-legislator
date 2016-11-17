@@ -22,7 +22,7 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --port 3000",
-    "deploy": "npm run build && surge --project ./dist --domain see-you-legislator.surge.sh"
+    "deploy": "npm run build && cp src/style.css dist/ && surge --project ./dist --domain see-you-legislator.surge.sh"
   },
   "repository": {
     "type": "git",

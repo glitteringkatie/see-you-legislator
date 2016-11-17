@@ -1,6 +1,16 @@
 body {
-  margin: 2em;
+  margin: 2em auto auto auto;
   font-family: 'Crimson Text', serif;
+  max-width: 1000px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  background-color: #e3e3e3;
+  padding: 1em;
+  margin: 0.5em;
+  border-left: solid green 7px;
 }
 
 .title {
@@ -15,6 +25,21 @@ body {
   margin-top: 0;
 }
 
-ul {
+.legislator-info {
   list-style: none;
+}
+
+.legislator-name {
+  margin: 0;
+}
+
+.legislator-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+}
+
+.legislator-tiles {
+  display: flex;
+  flex-wrap: wrap;
 }
