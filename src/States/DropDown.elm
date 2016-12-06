@@ -1,7 +1,7 @@
 module States.DropDown exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, value)
+import Html.Attributes exposing (class, value, href)
 import Html.Events exposing (on, targetValue)
 import States.Messages exposing (..)
 import States.Models exposing (StateModel, Legislators, LegislatorData)
@@ -48,37 +48,71 @@ printLegislators : Legislators -> Html Msg
 printLegislators legislators =
   div [ class "legislator-tiles" ] (List.map printLegislator legislators)
 
-listInfo : LegislatorData -> List String
+listInfo : LegislatorData -> List (Html Msg)
 listInfo legislator =
   let
     twitter =
       case legislator.person.twitterid of
         (Just twitterid) ->
-          [ twitterid ]
+          [ div []
+                [ i [ class "fa fa-twitter" ] []
+                , a [ href ( "https://twitter.com/" ++ twitterid ) ]
+                    [ text ( "@" ++  twitterid ) ]
+                ] ]
         (Nothing) ->
           []
     contactForm =
       case legislator.extra.contact_form of
         (Just contact_form) ->
-          [ contact_form ]
+          [ div []
+                [ i [ class "fa fa-envelope" ] []
+                , a [ href contact_form ]
+                    [ text ( "Contact "
+                           ++ legislator.person.firstname
+                           ++ " "
+                           ++ legislator.person.lastname
+                           )
+                    ]
+                ] ]
         (Nothing) ->
           []
   in
     List.append twitter contactForm
       |> List.append
-        [ legislator.party
-        , legislator.website
-        , legislator.phone
-        , legislator.extra.office
+        [ div []
+              [ i [ class "fa fa-id-badge" ] []
+              , text legislator.party ]
+        , div []
+              [ i [ class "fa fa-phone" ] []
+              , text legislator.phone ]
+        , div []
+              [ i [ class "fa fa-home" ] []
+              ,text legislator.extra.office ]
         ]
 
-infoLi : String -> Html Msg
+infoLi : Html Msg -> Html Msg
 infoLi info =
-  li [] [ text info ]
+  li [] [ (info) ]
+
+tileClass : String -> String
+tileClass party =
+  case party of
+    "Democrat" ->
+        "democrat tile"
+    "Republican" ->
+        "republican tile"
+    "Green" ->
+        "green tile"
+    "Libertarian" ->
+        "libertarian tile"
+    "Independent" ->
+        "independent tile"
+    _ ->
+        "other tile"
 
 printLegislator : LegislatorData -> Html Msg
 printLegislator legislator =
-    div [ class "tile" ]
+    div [ class (tileClass legislator.party) ]
         [ h3 [ class "h3 legislator-name" ] [ text legislator.person.name ]
         , ul [ class "legislator-info" ] (List.map infoLi (listInfo legislator))
         ]

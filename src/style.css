@@ -1,7 +1,7 @@
 body {
   margin: 2em auto auto auto;
   font-family: 'Crimson Text', serif;
-  max-width: 1000px;
+  max-width: 1070px;
 }
 
 .tile {
@@ -10,7 +10,6 @@ body {
   background-color: #e3e3e3;
   padding: 1em;
   margin: 0.5em;
-  border-left: solid green 7px;
 }
 
 .title {
@@ -42,4 +41,46 @@ body {
 .legislator-tiles {
   display: flex;
   flex-wrap: wrap;
+}
+
+.democrat {
+  border-left: solid blue 7px;
+}
+
+.republican {
+  border-left: solid red 7px;
+}
+
+.green {
+  border-left: solid green 7px;
+}
+
+.libertarian {
+  border-left: solid goldenrod 7px;
+}
+
+.constitution {
+  border-left: 7px solid;
+  -moz-border-image: -moz-linear-gradient(top, red 0%, white 50%, blue 100%);
+  -webkit-border-image: -webkit-linear-gradient(top, red 0%, white 50%, blue 100%);
+  border-image: linear-gradient(to bottom, red 0%, white 50%, blue 100%);
+  border-image-slice: 1;
+}
+
+.independent {
+  border-left: solid purple 7px;
+}
+
+.other {
+  border-left: solid #0f0f0f 7px;
+}
+
+a {
+  color: #284168;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+i {
+  padding-right: 10px;
 }
