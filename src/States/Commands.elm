@@ -22,29 +22,32 @@ collectionDecoder : Decode.Decoder (Legislators)
 collectionDecoder =
   ("objects" := Decode.list legislatorDataDecoder)
 
+maybeStringDecoder : String -> Decode.Decoder (Maybe String)
+maybeStringDecoder toDecode =
+  Decode.maybe ( toDecode := Decode.string )
+
 legislatorDataDecoder : Decode.Decoder LegislatorData
 legislatorDataDecoder =
   Decode.object7 LegislatorData
-    ("description" := Decode.string)
+    ( maybeStringDecoder "description" )
     ("extra" := legislatorContactDecoder)
-    ("party" := Decode.string)
+    ( maybeStringDecoder "party" )
     ("person" := legislatorPersonDecoder)
-    ("phone" := Decode.string)
-    ("role_type" := Decode.string)
-    ("website" := Decode.string)
+    ( maybeStringDecoder "phone" )
+    ( maybeStringDecoder "role_type" )
+    ( maybeStringDecoder "website" )
 
 legislatorContactDecoder : Decode.Decoder LegislatorContact
 legislatorContactDecoder =
   Decode.object2 LegislatorContact
-    ("office" := Decode.string)
-    ( Decode.maybe ("contact_form" := Decode.string) )
+    ( maybeStringDecoder "office" )
+    ( maybeStringDecoder "contact_form" )
 
 legislatorPersonDecoder : Decode.Decoder Legislator
 legislatorPersonDecoder =
-  Decode.object6 Legislator
-    ("firstname" := Decode.string)
-    ("lastname" := Decode.string)
-    ("link" := Decode.string)
-    ("name" := Decode.string)
-    (Decode.maybe ("twitterid" := Decode.string))
-    (Decode.maybe ("youtubeid" := Decode.string))
+  Decode.object5 Legislator
+    ( maybeStringDecoder "firstname" )
+    ( maybeStringDecoder "lastname" )
+    ( maybeStringDecoder "link" )
+    ( maybeStringDecoder "name" )
+    ( maybeStringDecoder "twitterid" )

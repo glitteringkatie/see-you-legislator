@@ -6,17 +6,29 @@ import States.Models exposing (StateModel, LegislatorData)
 
 isRepresentative : LegislatorData -> Bool
 isRepresentative legislator =
-  if legislator.role_type == "representative" then
-     True
-   else
-     False
+  let
+    role =
+      case legislator.role_type of
+        (Just roleType) -> roleType
+        (Nothing) -> "no"
+  in
+    if role == "representative" then
+       True
+     else
+       False
 
 isSenator : LegislatorData -> Bool
 isSenator legislator =
-  if legislator.role_type == "senator" then
-     True
-   else
-     False
+  let
+    role =
+      case legislator.role_type of
+        (Just roleType) -> roleType
+        (Nothing) -> "no"
+  in
+    if role == "senator" then
+       True
+     else
+       False
 
 update : Msg -> StateModel -> ( StateModel, Cmd Msg )
 update message model =

@@ -48,47 +48,62 @@ printLegislators : Legislators -> Html Msg
 printLegislators legislators =
   div [ class "legislator-tiles" ] (List.map printLegislator legislators)
 
+maybeBasicInfo : Maybe String -> String -> Html Msg
+maybeBasicInfo info icon =
+  case info of
+    (Just info) ->
+      ( div []
+            [ i [ class icon ] []
+            , text info ]
+      )
+    (Nothing) ->
+      Html.text ""
+
 listInfo : LegislatorData -> List (Html Msg)
 listInfo legislator =
   let
     twitter =
       case legislator.person.twitterid of
         (Just twitterid) ->
-          [ div []
+          ( div []
                 [ i [ class "fa fa-twitter" ] []
                 , a [ href ( "https://twitter.com/" ++ twitterid ) ]
                     [ text ( "@" ++  twitterid ) ]
-                ] ]
+                ] )
         (Nothing) ->
-          []
+          Html.text ""
     contactForm =
-      case legislator.extra.contact_form of
-        (Just contact_form) ->
-          [ div []
-                [ i [ class "fa fa-envelope" ] []
-                , a [ href contact_form ]
-                    [ text ( "Contact "
-                           ++ legislator.person.firstname
-                           ++ " "
-                           ++ legislator.person.lastname
-                           )
-                    ]
-                ] ]
-        (Nothing) ->
-          []
+      let
+        first =
+          case legislator.person.firstname of
+            (Just name) -> name
+            (Nothing) -> ""
+        last =
+          case legislator.person.lastname of
+            (Just name) -> name
+            (Nothing) -> ""
+      in
+        case legislator.extra.contact_form of
+          (Just contact_form) ->
+            ( div []
+                  [ i [ class "fa fa-envelope" ] []
+                  , a [ href contact_form ]
+                      [ text ( "Contact "
+                             ++ first
+                             ++ " "
+                             ++ last
+                             )
+                      ]
+                  ] )
+          (Nothing) ->
+            Html.text ""
   in
-    List.append twitter contactForm
-      |> List.append
-        [ div []
-              [ i [ class "fa fa-id-badge" ] []
-              , text legislator.party ]
-        , div []
-              [ i [ class "fa fa-phone" ] []
-              , text legislator.phone ]
-        , div []
-              [ i [ class "fa fa-home" ] []
-              ,text legislator.extra.office ]
-        ]
+    [ ( maybeBasicInfo legislator.party "fa fa-id-badge" )
+    , ( maybeBasicInfo legislator.phone "fa fa-phone" )
+    , ( maybeBasicInfo legislator.extra.office "fa fa-home" )
+    , twitter
+    , contactForm
+    ]
 
 infoLi : Html Msg -> Html Msg
 infoLi info =
@@ -112,8 +127,18 @@ tileClass party =
 
 printLegislator : LegislatorData -> Html Msg
 printLegislator legislator =
-    div [ class (tileClass legislator.party) ]
-        [ h3 [ class "h3 legislator-name" ] [ text legislator.person.name ]
+  let
+    party =
+      case legislator.party of
+        (Just p) -> p
+        (Nothing) -> ""
+    name =
+      case legislator.person.name of
+        (Just n) -> n
+        (Nothing) -> ""
+  in
+    div [ class (tileClass party) ]
+        [ h3 [ class "h3 legislator-name" ] [ text name ]
         , ul [ class "legislator-info" ] (List.map infoLi (listInfo legislator))
         ]
 
