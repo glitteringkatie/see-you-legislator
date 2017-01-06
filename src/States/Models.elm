@@ -10,27 +10,26 @@ type alias State =
     String
 
 type alias Legislator =
-  { firstname : String
-  , lastname : String
-  , link : String
-  , name : String
+  { firstname : Maybe String
+  , lastname : Maybe String
+  , link : Maybe String
+  , name : Maybe String
   , twitterid : Maybe String
-  , youtubeid : Maybe String
   }
 
 type alias LegislatorContact =
-  { office : String
+  { office : Maybe String
   , contact_form : Maybe String
   }
 
 type alias LegislatorData =
-  { description : String
+  { description : Maybe String
   , extra : LegislatorContact
-  , party : String
+  , party : Maybe String
   , person : Legislator
-  , phone : String
-  , role_type : String
-  , website : String
+  , phone : Maybe String
+  , role_type : Maybe String
+  , website : Maybe String
   }
 
 type alias Legislators =
